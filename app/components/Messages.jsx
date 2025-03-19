@@ -107,9 +107,9 @@ const Messages = () => {
     }
   };
 
-  const markAsRead = async (messageId) => {
+  const markAsRead = async (id) => {
     try {
-      const response = await fetch(`/api/messages/${messageId}`, {
+      const response = await fetch(`/api/messages/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const Messages = () => {
 
       if (response.ok) {
         setMessages(messages.map(msg => 
-          msg._id === messageId ? { ...msg, read: true } : msg
+          msg._id === id ? { ...msg, read: true } : msg
         ));
       }
     } catch (error) {
