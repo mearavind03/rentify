@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+model User {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String         @unique
+  image         String?
+  phone         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  messages      Message[]      @relation("SentMessages")
+  properties    Property[]     @relation("PropertyOwner")
+  notifications Notification[] @relation("NotificationSender")
+  receivedNotifications Notification[] @relation("NotificationRecipient")
+}
+
+model Property {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  location      Location
+  messages      Message[]
+  notifications Notification[]
+  owner         User          @relation("PropertyOwner", fields: [ownerId], references: [id])
+  ownerId       String        @db.ObjectId
+}
+
+type Location {
+  street  String
+  city    String
+  state   String
+  zipcode String
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  status    String   @default("pending") // pending, approved, declined
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sender   User     @relation("SentMessages", fields: [senderId], references: [id])
+  senderId String   @db.ObjectId
+  property Property @relation(fields: [propertyId], references: [id])
+  propertyId String @db.ObjectId
+}
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sender    User     @relation("NotificationSender", fields: [senderId], references: [id])
+  senderId  String   @db.ObjectId
+  recipient User     @relation("NotificationRecipient", fields: [recipientId], references: [id])
+  recipientId String @db.ObjectId
+  property  Property @relation(fields: [propertyId], references: [id])
+  propertyId String  @db.ObjectId
+} 
