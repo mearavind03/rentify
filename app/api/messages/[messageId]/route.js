@@ -4,12 +4,12 @@ import Message from '@/models/Message';
 import { getSessionUser } from '@/utils/getSessionUser';
 import prisma from '@/lib/prisma';
 
-// PATCH /api/messages/[messageId] - Mark message as read
+// PATCH /api/messages/[id] - Mark message as read
 export async function PATCH(request, { params }) {
   try {
     await connectDB();
 
-    const { messageId } = params;
+    const { id } = params;
     
     const sessionUser = await getSessionUser();
     if (!sessionUser || !sessionUser.user) {
@@ -20,7 +20,7 @@ export async function PATCH(request, { params }) {
     }
 
     // Find the message
-    const message = await Message.findById(messageId)
+    const message = await Message.findById(id)
       .populate('sender', 'username email')
       .populate('recipient', 'username email phone')
       .populate('property', 'name location');
