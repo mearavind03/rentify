@@ -52,22 +52,13 @@ export async function PATCH(request, { params }) {
     }
 
     await message.save();
+    console.log(message);
 
     // If marking as read, create notification and send email
     if (body.read) {
       // Create notification for the sender with contact information
       const notificationMessage = `${message.recipient.username} is interested in your inquiry about the property "${message.property.name}". Contact details: Email: ${message.recipient.email}, Phone: ${message.recipient.phone}`;
       
-      await prisma.notification.create({
-        data: {
-          content: notificationMessage,
-          senderId: message.recipient._id.toString(),
-          recipientId: message.sender._id.toString(),
-          propertyId: message.property._id.toString(),
-          read: false
-        }
-      });
-
       // Send email to the sender
       const propertyAddress = `${message.property.location.street}, ${message.property.location.city}, ${message.property.location.state} ${message.property.location.zipcode}`;
       

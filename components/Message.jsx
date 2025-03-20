@@ -12,17 +12,24 @@ const Message = ({ message }) => {
   const handleReadClick = async () => {
     try {
       const res = await fetch(`/api/messages/${message._id}`, {
-        method: 'PUT',
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          read: !isRead,
+          status: !isRead ? 'approved' : 'declined'
+        }),
       });
 
       if (res.status === 200) {
-        const { read } = await res.json();
-        setIsRead(read);
-        setUnreadCount((prevCount) => (read ? prevCount - 1 : prevCount + 1));
-        if (read) {
-          toast.success('Marked as read');
+        const data = await res.json();
+        setIsRead(!isRead);
+        setUnreadCount((prevCount) => (!isRead ? prevCount - 1 : prevCount + 1));
+        if (!isRead) {
+          toast.success('Inquiry accepted');
         } else {
-          toast.success('Marked as new');
+          toast.success('Inquiry rejected');
         }
       }
     } catch (error) {

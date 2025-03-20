@@ -17,12 +17,12 @@ export async function POST(request) {
     const emailContent = `Dear Applicant,
 
 ${customMessage || (isApproved
-  ? `We are pleased to inform you that your application for the property at ${propertyAddress} has been approved.
+  ? `We are pleased to inform you that your application for the property has been approved.
 
 We look forward to working with you on the next steps of the process.`
-  : `We regret to inform you that your application for the property at ${propertyAddress} has been declined.
+  : `We are pleased to inform you that your application for the property has been approved.
 
-We appreciate your interest and wish you the best in your property search.`)}
+We look forward to working with you on the next steps of the process.`)}
 
 Best regards,
 The Property Management Team`;
