@@ -11,7 +11,7 @@ const HomeProperties = async () => {
           .sort(() => Math.random() - Math.random())
           .slice(0, 3)
       : [];
-
+  console.log("recentProperties", recentProperties);
   return (
     <>
       <section className='px-4 py-6'>

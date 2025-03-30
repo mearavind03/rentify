@@ -6,15 +6,25 @@ import cloudinary from '@/config/cloudinary';
 // GET /api/properties
 export const GET = async (request) => {
   try {
+    console.log('Attempting to connect to database...');
     await connectDB();
+    console.log('Database connected successfully');
 
     const page = request.nextUrl.searchParams.get('page') || 1;
     const pageSize = request.nextUrl.searchParams.get('pageSize') || 6;
 
     const skip = (page - 1) * pageSize;
 
+    console.log('Fetching properties from database...');
     const total = await Property.countDocuments({});
-    const properties = await Property.find({}).skip(skip).limit(pageSize);
+    console.log(`Total properties found: ${total}`);
+
+    const properties = await Property.find({})
+      .skip(skip)
+      .limit(pageSize)
+      .sort({ createdAt: -1 }); // Sort by newest first
+
+    console.log(`Retrieved ${properties.length} properties for page ${page}`);
 
     const result = {
       total,
@@ -23,10 +33,24 @@ export const GET = async (request) => {
 
     return new Response(JSON.stringify(result), {
       status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
   } catch (error) {
-    console.log(error);
-    return new Response('Something Went Wrong', { status: 500 });
+    console.error('Error in GET /api/properties:', error);
+    return new Response(
+      JSON.stringify({ 
+        error: 'Failed to fetch properties',
+        details: error.message 
+      }), 
+      { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 };
 
