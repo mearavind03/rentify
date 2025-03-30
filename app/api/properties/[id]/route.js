@@ -72,6 +72,7 @@ export const PUT = async (request, { params }) => {
     const { userId } = sessionUser;
 
     const formData = await request.formData();
+    console.log(formData)
 
     // Access all values from amenities
     const amenities = formData.getAll('amenities');
@@ -106,7 +107,7 @@ export const PUT = async (request, { params }) => {
       rates: {
         weekly: formData.get('rates.weekly'),
         monthly: formData.get('rates.monthly'),
-        nightly: formData.get('rates.nightly.'),
+        day: formData.get('rates.day'),
       },
       seller_info: {
         name: formData.get('seller_info.name'),

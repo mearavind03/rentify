@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'photoswipe/dist/photoswipe.css';
 
 export const metadata = {
-  title: 'PropertyPulse | Find The Perfect Rental',
+  title: 'Rentify | Find The Perfect Rental',
   description: 'Find your dream rental property',
   keywords: 'rental, find rentals, find properties',
 };

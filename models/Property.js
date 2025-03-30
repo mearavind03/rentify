@@ -50,7 +50,7 @@ const PropertySchema = new Schema(
       },
     ],
     rates: {
-      nightly: {
+      day: {
         type: Number,
       },
       weekly: {

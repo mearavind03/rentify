@@ -20,7 +20,7 @@ const PropertyAddForm = () => {
     rates: {
       weekly: '',
       monthly: '',
-      nightly: '',
+      day : '',
     },
     seller_info: {
       name: '',
@@ -484,15 +484,15 @@ const PropertyAddForm = () => {
               />
             </div>
             <div className='flex items-center'>
-              <label htmlFor='nightly_rate' className='mr-2'>
-                Nightly
+              <label htmlFor='day_rate' className='mr-2'>
+                day
               </label>
               <input
                 type='number'
-                id='nightly_rate'
-                name='rates.nightly'
+                id='day_rate'
+                name='rates.day'
                 className='border rounded w-full py-2 px-3'
-                value={fields.rates.nightly}
+                value={fields.rates.day}
                 onChange={handleChange}
               />
             </div>

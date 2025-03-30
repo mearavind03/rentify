@@ -16,8 +16,8 @@ const PropertyCard = ({ property }) => {
       return `${rates.monthly.toLocaleString()}/mo`;
     } else if (rates.weekly) {
       return `${rates.weekly.toLocaleString()}/wk`;
-    } else if (rates.nightly) {
-      return `${rates.nightly.toLocaleString()}/night`;
+    } else if (rates.day) {
+      return `{rates.day.toLocaleString()}/night`;
     }
   };
 
@@ -29,7 +29,7 @@ const PropertyCard = ({ property }) => {
         height={0}
         width={0}
         sizes='100vw'
-        className='w-full h-auto rounded-t-xl'
+        className='w-full h-[400px] rounded-t-xl'
       />
       <div className='p-4'>
         <div className='text-left md:text-center lg:text-left mb-6'>
@@ -47,7 +47,7 @@ const PropertyCard = ({ property }) => {
           </p>
           <p>
             <FaBath className='inline mr-2' />
-            {property.baths} <span className='md:hidden lg:inline'>Baths</span>
+            {property.baths} <span className='md:hidden lg:inline'>Bathroom</span>
           </p>
           <p>
             <FaRulerCombined className='inline mr-2' />
@@ -57,9 +57,9 @@ const PropertyCard = ({ property }) => {
         </div>
 
         <div className='flex justify-center gap-4 text-green-900 text-sm mb-4'>
-          {property.rates.nightly && (
+          {property.rates.day && (
             <p>
-              <FaMoneyBill className='inline mr-2' /> Nightly
+              <FaMoneyBill className='inline mr-2' /> day
             </p>
           )}
 
